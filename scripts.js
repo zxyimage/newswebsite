@@ -1,35 +1,21 @@
-const apiKey = 'dfd33e9d71ac44d2b0aac74b2d731b27'; // Replace 'YOUR_API_KEY' with your actual API key from NewsAPI
-const apiUrl = `https://newsapi.org/v2/everything?q=artificial+intelligence&apiKey=${apiKey}`;
+// Initialize the markdown-it converter
+const md = window.markdownit();
 
-async function getNews() {
+// Function to fetch and display the Markdown content
+async function displayMarkdown() {
   try {
-    const response = await fetch(
-      "https://newsapi.org/v2/everything?q=artificial+intelligence&apiKey=dfd33e9d71ac44d2b0aac74b2d731b27"
-    );
+    const response = await fetch("content.md");
     if (response.status === 200) {
-      const data = await response.json();
-      if (data && data.articles) {
-        displayNews(data.articles);
-      } else {
-        console.error("Unexpected API response format:", data);
-      }
+      const markdownContent = await response.text();
+      const htmlContent = md.render(markdownContent);
+      document.getElementById("markdown-container").innerHTML = htmlContent;
     } else {
-      console.error("Failed to fetch news with status:", response.status);
+      console.error("Failed to fetch Markdown content with status:", response.status);
     }
   } catch (error) {
-    console.error("Error fetching news:", error);
+    console.error("Error fetching Markdown content:", error);
   }
 }
 
-function displayNews(articles) {
-  const newsHTML = articles.map((article) => {
-    return `
-      <div class="news-article">
-        <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-        <p>${article.description}</p>
-      </div>
-    `;
-  });
-  document.getElementById("news-container").innerHTML = newsHTML.join("");
-}
-
+// Call the displayMarkdown function when the page loads
+displayMarkdown();
