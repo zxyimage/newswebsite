@@ -1,13 +1,11 @@
-// Initialize the markdown-it converter
-const md = window.markdownit();
-
 // Function to fetch and display the Markdown content
 async function displayMarkdown() {
   try {
     const response = await fetch("content.md");
     if (response.status === 200) {
       const markdownContent = await response.text();
-      const htmlContent = md.render(markdownContent);
+      const converter = new showdown.Converter();
+      const htmlContent = converter.makeHtml(markdownContent);
       document.getElementById("markdown-container").innerHTML = htmlContent;
     } else {
       console.error("Failed to fetch Markdown content with status:", response.status);
