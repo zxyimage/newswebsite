@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super AI Space</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .news-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .news-item {
+            width: 30%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+        .news-item img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Super AI Space</h1>
+    <h2>Latest AI News</h2>
+    <div class="news-container" id="news-container"></div>
+
+    <script>
+        const apiKey = 'dfd33e9d71ac44d2b0aac74b2d731b27'; // Replace 'YOUR_API_KEY' with your actual API key from NewsAPI
+        const apiUrl = `https://newsapi.org/v2/everything?q=artificial+intelligence&apiKey=${apiKey}`;
+        
+        async function getNews() {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            displayNews(data.articles);
+        }
+        
+        function displayNews(articles) {
+            const newsContainer = document.getElementById('news-container');
+            newsContainer.innerHTML = articles.map(article => `
+                <div class="news-item">
+                    <img src="${article.urlToImage}" alt="${article.title}">
+                    <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
+                    <p>${article.description}</p>
+                </div>
+            `).join('');
+        }
+        
+        getNews();
+    </script>
+</body>
+</html>
