@@ -18,4 +18,4 @@ async function displayMarkdown() {
 }
 
 // Call the displayMarkdown function when the page loads
-displayMarkdown();
+document.addEventListener("DOMContentLoaded", displayMarkdown);
